@@ -1,0 +1,7 @@
+<div class="kanban_card">
+  <div class="header" style="background-color: <%= issue_color(issue) %>;">
+    <span class="issue_priority"><%= issue.priority.name %></span>
+    <%= link_to "##{issue.id}", issue_path(issue.id), {class: "issue_link"} %></span>
+  </div>
+  <div class="subject"><%= issue.subject %></div>
+</div>

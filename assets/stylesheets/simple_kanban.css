@@ -1,0 +1,69 @@
+table.kanban {
+  border-collapse:collapse; 
+  margin: 3px;
+}
+
+table.kanban caption {
+  padding: 0.5em;
+  background-color: #DDD;
+  font: bold 150% "Trebuchet MS", Verdana, sans-serif;
+  border-bottom: 1px solid #FFF;
+}
+table.kanban th,
+table.kanban td {
+  width: 19.2em;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #DDD;
+}
+
+table.kanban th {
+  background-color: #DDD;
+}
+
+table.kanban td {
+  vertical-align:top;
+}
+
+.kanban_card {
+  border: 1px solid #3E5B76;
+
+  margin: 0.1em 0 0.1em 0;
+  padding: 0.2em;
+
+  width: 9em;
+  height: 12ex;
+  overflow: hidden;
+  
+  float:left;
+}
+
+.kanban_card .header {
+  color:  white;
+/*  background-color: #628DB6;*/
+}
+
+.kanban_card .header a {
+  color:  white;
+}
+
+.kanban_card .header .issue_priority {
+  text-align: left;
+}
+
+.kanban_card .header .issue_link {
+  float: right;
+  text-align: right;
+}
+
+.kanban .only_recently_closed_issues {
+  text-align: center;
+  color: #999;
+  background-color: #FFF;
+}
+
+.issue_status_id {
+  visibility: hidden;
+}
+
+.clearfix { clear: both }

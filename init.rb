@@ -1,8 +1,11 @@
 Redmine::Plugin.register :simple_kanban do
   name 'Simple Kanban plugin'
-  author 'Author name'
-  description 'This is a plugin for Redmine'
+  author 'Sava Chankov'
+  description 'A plugin that adds a kanban overview to Redmine'
   version '0.0.1'
-  url 'http://example.com/path/to/plugin'
-  author_url 'http://example.com/about'
+  
+  project_module :simple_kanban do
+    permission :simple_kanban, :simple_kanban => :index
+  end
+  menu :project_menu, :kanban, {:controller => 'simple_kanban', :action => 'index' }, :caption => :project_menu, :after => :activity, :param => :project_id
 end
