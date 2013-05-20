@@ -3,20 +3,35 @@ $(function() {
   $(".kanban_card").draggable();
   $(".status_column").droppable({
     drop: function( event, ui ) {
-      $(this).append(ui.draggable);
-      ui.draggable.css('top', '').css('left', '');
-      var issue_href = ui.draggable.find('a.issue_link')[0].href;
-      var issue_status_id = $(this).find('.issue_status_id').first().text();
-      // TODO: check permission for the issue_status change, because Redmine silently refuses to update issue if
-      // user is not allowed to do so and returns HTTP OK 200
+      var kanban_card = ui.draggable;
+      var issue_href = kanban_card.find('a.issue_link')[0].href;
+      var issue_id = kanban_card.data('issue_id');
+      var new_issue_status_id = $(this).data('issue_status_id');
+      $(this).append(kanban_card);
+      kanban_card.css('top', '').css('left', '');
       $.ajax({
         url: issue_href,
-        data: { issue: { status_id: issue_status_id } },
+        async: false,
+        data: { issue: { status_id: new_issue_status_id } },
         dataType: 'json',
         type: 'PUT',
-        success: function(data, text_status, jq_xhr) { $.jGrowl("Successfully updated " + issue_href) },
-        error: function(jq_xhr, text_status, error_thrown){ $.jGrowl("Couldn't change issue status") }
-     })
+        success: function(jq_xhr, text_status, error_thrown) {
+          // check whether status has really changed because when user has not been given permission for this workflow,
+          // Redmine ignores status change but saves the issue and returns 200 OK
+          $.get('/issues/' + issue_id + '.json',
+                {key: redmine_api_key},
+                function(data) {
+                  var issue = data.issue
+                  if (issue.status.id == new_issue_status_id) {
+                    $.jGrowl("Changed status of #" + issue_id);
+                  } else {
+                    $('[data-issue_status_id=' + issue.status.id + ']').append(kanban_card)
+                    alert("Couldn't change issue status of #" + issue_id + ".\nPlease, ask project manager for permissions.")
+                  }
+                } );
+        },
+        error: function(jq_xhr, text_status, error_thrown) { alert("Couldn't change issue status of #" + issue_id) }
+      });
    }
  })
 })
