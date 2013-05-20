@@ -38,6 +38,11 @@ table.kanban td {
   float:left;
 }
 
+.kanban_card .subject {
+  font: normal 12px "Trebuchet MS", Verdana, sans-serif;
+/*  word-break: break-word;*/
+}
+
 .kanban_card .header {
   color:  white;
 /*  background-color: #628DB6;*/
