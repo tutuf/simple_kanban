@@ -1,7 +1,7 @@
 Redmine::Plugin.register :simple_kanban do
   name 'Simple Kanban plugin'
   author 'Sava Chankov'
-  description 'A plugin that adds a kanban overview to Redmine'
+  description 'Adds interactive kanban overview to Redmine. Simple to setup and intuitive to use.'
   version '0.0.1'
   
   project_module :simple_kanban do
