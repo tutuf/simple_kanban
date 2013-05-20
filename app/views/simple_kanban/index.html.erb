@@ -4,7 +4,7 @@
          
   <%= %w(jquery.jgrowl.min.js
          simple_kanban.js).map{ |js| javascript_include_tag js, :plugin => 'simple_kanban'}.join("").html_safe %>
-  <%= javascript_tag "redmine_api_key = #{User.current.api_key}" %>
+  <%= javascript_tag "redmine_api_key = '#{User.current.api_key}';" %>
 <%- end %>
 
 <%- for version in @project.versions.open.sort do -%>
