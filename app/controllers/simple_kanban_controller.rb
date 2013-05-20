@@ -7,6 +7,8 @@ class SimpleKanbanController < ApplicationController
   
   def index
     @issue_statuses = IssueStatus.sorted
+    # we're doing AJAX and flash is irrelevant
+    flash.clear
   end
   
   private
