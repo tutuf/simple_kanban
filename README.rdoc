@@ -1,3 +1,0 @@
-= simple_kanban
-
-Description goes here
