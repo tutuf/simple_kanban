@@ -3,6 +3,7 @@
          simple_kanban.css).map{ |css| stylesheet_link_tag css, :plugin => 'simple_kanban'}.join("").html_safe %>
          
   <%= %w(jquery.jgrowl.min.js
+         jquery.tinysort.min.js
          simple_kanban.js).map{ |js| javascript_include_tag js, :plugin => 'simple_kanban'}.join("").html_safe %>
   <%= javascript_tag "redmine_api_key = '#{User.current.api_key}';" %>
 <%- end %>
@@ -30,7 +31,7 @@
                 <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
               <%- end -%>
             <%- else -%>
-              <%- for issue in version.fixed_issues.where(status_id: issue_status.id).order(:id) do -%>
+              <%- for issue in sort_issues(version, issue_status.id) do -%>
                 <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
               <%- end -%>
             <%- end -%>

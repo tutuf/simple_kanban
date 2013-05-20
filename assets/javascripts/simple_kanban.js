@@ -3,11 +3,11 @@ $(function() {
   $(".kanban_card").draggable();
   $(".status_column").droppable({
     drop: function( event, ui ) {
+      var column = $(this);
       var kanban_card = ui.draggable;
       var issue_href = kanban_card.find('a.issue_link')[0].href;
       var issue_id = kanban_card.data('issue_id');
       var new_issue_status_id = $(this).data('issue_status_id');
-      $(this).append(kanban_card);
       kanban_card.css('top', '').css('left', '');
       $.ajax({
         url: issue_href,
@@ -24,8 +24,8 @@ $(function() {
                   var issue = data.issue
                   if (issue.status.id == new_issue_status_id) {
                     $.jGrowl("Changed status of #" + issue_id);
+                    insert_kanban_card(column, kanban_card);
                   } else {
-                    $('[data-issue_status_id=' + issue.status.id + ']').append(kanban_card)
                     alert("Couldn't change issue status of #" + issue_id + ".\nPlease, ask project manager for permissions.")
                   }
                 } );
@@ -35,3 +35,9 @@ $(function() {
    }
  })
 })
+
+// Arguments are jQuery objects
+function insert_kanban_card(column, kanban_card){
+  column.append(kanban_card);
+  column.find('.kanban_card').tsort({data:'issue_tracker_position'}, {data:'issue_priority_position'}, {data:'issue_id'});
+}
