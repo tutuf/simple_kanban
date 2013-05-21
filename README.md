@@ -21,12 +21,12 @@ Setup
 
 1. Go to your project's **Settings** → **Modules** and check **Simple Kanban**.
 1. For best results we suggest renaming issue priorities to be composed of intuitive symbols only (e.g.  ★, ★★, ★★★ or ♥, ♥♥, ♥♥♥ or even ☃, ☃☃, ☃☃☃).
-
+1. Adjust order tracker and issue priorities if you need (in **Administration** → **Settings**).
 
 Usage
 -----
 
-This plugin is intended to largely replace project's roadmap. The only thing it currently is able to do beside displaying neatly issues is changing status by drag'n'drop.
+This plugin is intended to largely replace project's roadmap. The only thing it currently is able to do beside displaying neatly sorted issues is changing status by drag'n'drop.
 
 Sponsors
 --------
