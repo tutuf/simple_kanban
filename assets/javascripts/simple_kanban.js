@@ -34,10 +34,15 @@ $(function() {
       });
    }
  })
+ $(".status_column").each( function(){ sort_kanban_cards($(this)) })
 })
 
 // Arguments are jQuery objects
 function insert_kanban_card(column, kanban_card){
   column.append(kanban_card);
-  column.find('.kanban_card').tsort({data:'issue_tracker_position'}, {data:'issue_priority_position'}, {data:'issue_id'});
+  sort_kanban_cards(column)
+}
+
+function sort_kanban_cards(column) {
+  column.find('.kanban_card').tsort({data:'issue_tracker_position'}, {data:'issue_priority_position', order: 'desc'}, {data:'issue_id'});
 }
