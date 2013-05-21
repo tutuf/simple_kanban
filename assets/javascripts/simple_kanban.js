@@ -49,5 +49,7 @@ function insert_kanban_card(column, kanban_card){
 }
 
 function sort_kanban_cards(column) {
-  column.find('.kanban_card').tsort({data:'issue_tracker_position'}, {data:'issue_priority_position', order: 'desc'}, {data:'issue_id'});
+  if (column.hasClass('open_status')) {
+    column.find('.kanban_card').tsort({data:'issue_tracker_position'}, {data:'issue_priority_position', order: 'desc'}, {data:'issue_id'});
+  }
 }
