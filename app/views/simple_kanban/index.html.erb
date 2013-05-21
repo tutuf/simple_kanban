@@ -12,16 +12,16 @@
   <table class="kanban">
     <caption class="version"><%= link_to_version version, :name => version_anchor(version) %></caption>
     <thead>
-      <%- for issue_status in @issue_statuses -%>
-        <th>
-          <%= issue_status.name %>
-        </th>
-      <%- end %>
-      </thead>
-      <tbody>
-        <tr>
-          <%- for issue_status in @issue_statuses -%>
-          <td class="status_column" data-issue_status_id="<%= issue_status.id %>">
+      <tr>
+        <%- for issue_status in @issue_statuses -%>
+          <th class="<%= issue_status.is_closed? ? 'closed_status' : 'open_status' %>"><%= issue_status.name %></th>
+        <%- end %>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <%- for issue_status in @issue_statuses -%>
+          <td class="status_column <%= issue_status.is_closed? ? 'closed_status' : 'open_status' %>" data-issue_status_id="<%= issue_status.id %>">
             <%- if issue_status.is_closed? -%>
               <%- recently_closed_issues = version.fixed_issues.where(status_id: issue_status.id).recently_updated.limit(5) -%>
               <%- if recently_closed_issues.count > 0 -%>

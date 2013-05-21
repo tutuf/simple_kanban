@@ -35,6 +35,11 @@ $(function() {
    }
  })
  $(".status_column").each( function(){ sort_kanban_cards($(this)) })
+ $(".status_column").css('width', document.documentElement.clientWidth / $('table.kanban').first().find('td.status_column').size() )
+ $('.closed_status').click(function() {
+   $('.closed_status').hide()
+   $('.open_status').css('width', document.documentElement.clientWidth / $('table.kanban').first().find('td.open_status').size() )
+  })
 })
 
 // Arguments are jQuery objects

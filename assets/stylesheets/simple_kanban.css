@@ -9,9 +9,13 @@ table.kanban caption {
   font: bold 150% "Trebuchet MS", Verdana, sans-serif;
   border-bottom: 1px solid #FFF;
 }
+
+table.kanban th.closed_status {
+  cursor: pointer;
+}
+
 table.kanban th,
 table.kanban td {
-  width: 19.2em;
   margin: 0;
   padding: 0;
   border: 1px solid #DDD;
