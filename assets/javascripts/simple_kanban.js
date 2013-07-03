@@ -8,6 +8,7 @@ $(function() {
       var issue_href = kanban_card.find('a.issue_link')[0].href;
       var issue_id = kanban_card.data('issue_id');
       var new_issue_status_id = $(this).data('issue_status_id');
+      var old_issue_status = kanban_card.data('issue_status');
       kanban_card.css('top', '').css('left', '');
       $.ajax({
         url: issue_href,
@@ -22,15 +23,14 @@ $(function() {
                 {key: redmine_api_key},
                 function(data) {
                   var issue = data.issue
-                  if (issue.status.id == new_issue_status_id) {
-                    $.jGrowl("Changed status of #" + issue_id);
-                    insert_kanban_card(column, kanban_card);
-                  } else {
-                    alert("Couldn't change issue status of #" + issue_id + ".\nPlease, ask project manager for permissions.")
-                  }
-                } );
+                  if (issue.status.id == new_issue_status_id && new_issue_status_id != old_issue_status.id) {
+                    $.jGrowl("Статусът на #" + issue_id + " беше сменен от '" + old_issue_status.name + "' на '" + issue.status.name +"'")
+                    insert_kanban_card(column, kanban_card, issue)
+                  } else if (new_issue_status_id != old_issue_status.id) {
+                    alert("Статусът на #" + issue_id + "не може да бъде сменен на '" + issue.status.name +"',\nтъй като не сте управомощен за това.")
+           }});
         },
-        error: function(jq_xhr, text_status, error_thrown) { alert("Couldn't change issue status of #" + issue_id) }
+        error: function(jq_xhr, text_status, error_thrown) { alert("Статусът на #" + issue_id + " не беше сменен.") }
       });
    }
  })
