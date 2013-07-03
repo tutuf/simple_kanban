@@ -43,13 +43,12 @@ $(function() {
 })
 
 // Arguments are jQuery objects
-function insert_kanban_card(column, kanban_card){
-  column.append(kanban_card);
-  sort_kanban_cards(column)
+function insert_kanban_card(column, kanban_card, issue) {
+  column.append(kanban_card)
+  kanban_card.data('issue_status', issue.status)
+  if (column.hasClass('open_status')) { sort_kanban_cards(column) }
 }
 
 function sort_kanban_cards(column) {
-  if (column.hasClass('open_status')) {
-    column.find('.kanban_card').tsort({data:'issue_tracker_position'}, {data:'issue_priority_position', order: 'desc'}, {data:'issue_id'});
-  }
+  column.find('.kanban_card').tsort({data:'issue_tracker_position'}, {data:'issue_priority_position', order: 'desc'}, {data:'issue_id'});
 }
