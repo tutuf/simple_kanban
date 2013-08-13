@@ -44,7 +44,9 @@ table.kanban td {
 
 .kanban_card .subject {
   font: normal 12px "Trebuchet MS", Verdana, sans-serif;
-/*  word-break: break-word;*/
+  word-break: break-word;
+  position: relative;
+  z-index: 100;
 }
 
 .kanban_card .header {
@@ -76,3 +78,22 @@ table.kanban td {
 }
 
 .clearfix { clear: both }
+
+.kanban_card .gravatar {
+  padding: 0;
+  margin:  0;
+  border:  0;
+
+  width:         24px;
+  height:        24px;
+  border-radius: 24px;
+
+  background-position: center center;
+  background-size: cover  ;
+  
+  position: absolute;
+  bottom: 1px;
+  right:  1px;
+  
+  opacity: 0.7;
+}
