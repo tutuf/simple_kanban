@@ -1,10 +1,9 @@
 Simple Kanban
 =============
 
-Redmine plugin that adds interactive kanban overview. Simple to setup and intuitive to use. Versions are tables, issue statuses are columns.
-User can change issue status by drag'n'dropping the issue between columns. Tested on Redmine 2.2.3, should work with Redmine 2.x+
+Redmine plugin that adds interactive kanban overview. Tested on Redmine 2.2.3, should work with Redmine 2.x+
 
-![screenshot](screenshot.png?raw=true)
+![screenshot](screenshot.png?raw=true "Users can change issue status by drag'n'dropping the issue between columns")
 
 Installation
 ------------
