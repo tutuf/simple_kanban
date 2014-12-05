@@ -5,14 +5,16 @@ $(function() {
     drop: function( event, ui ) {
       var column = $(this);
       var kanban_card = ui.draggable;
-      var issue_href = kanban_card.find('a.issue_link')[0].href;
+      var issue_href = kanban_card.find('a.issue_id')[0].href;
       var issue_id = kanban_card.data('issue_id');
       var new_issue_status_id = $(this).data('issue_status_id');
       var old_issue_status = kanban_card.data('issue_status');
-      kanban_card.css('top', '').css('left', '');
+      var old_column = kanban_card.closest('.status_column');
+      var issue = {id: issue_id, status: old_issue_status};
+      insert_kanban_card(column, kanban_card, issue)
+      kanban_card.css({top: 0, left: 0});
       $.ajax({
         url: issue_href,
-        async: false,
         data: { issue: { status_id: new_issue_status_id } },
         dataType: 'json',
         type: 'PUT',
@@ -25,20 +27,24 @@ $(function() {
                   var issue = data.issue
                   if (issue.status.id == new_issue_status_id && new_issue_status_id != old_issue_status.id) {
                     $.jGrowl("Статусът на #" + issue_id + " беше сменен от '" + old_issue_status.name + "' на '" + issue.status.name +"'")
-                    insert_kanban_card(column, kanban_card, issue)
                   } else if (new_issue_status_id != old_issue_status.id) {
                     alert("Статусът на #" + issue_id + "не може да бъде сменен на '" + issue.status.name +"',\nтъй като не сте управомощен за това.")
-           }});
+                    insert_kanban_card(old_column, kanban_card, issue)
+                  }
+           });
         },
-        error: function(jq_xhr, text_status, error_thrown) { alert("Статусът на #" + issue_id + " не беше сменен.") }
+        error: function(jq_xhr, text_status, error_thrown) {
+          alert("Статусът на #" + issue_id + " не беше сменен.")
+          insert_kanban_card(old_column, kanban_card, issue)
+        }
       });
    }
  })
  $(".status_column").each( function(){ sort_kanban_cards($(this)) })
- $(".status_column").css('width', document.documentElement.clientWidth / $('table.kanban').first().find('td.status_column').size() )
+ $(".status_column").css('width', (100 / $('table.kanban').first().find('td.status_column').size()) + '%' )
  $('.closed_status').click(function() {
-   $('.closed_status').hide()
-   $('.open_status').css('width', document.documentElement.clientWidth / $('table.kanban').first().find('td.open_status').size() )
+   $('.closed_status').remove()
+   $('.open_status').css('width', (100 / $('table.kanban').first().find('td.open_status').size()) + '%' )
   })
 })
 

@@ -1,7 +1,7 @@
 <%- content_for :header_tags do %>
   <%= %w(jquery.jgrowl.css
          simple_kanban.css).map{ |css| stylesheet_link_tag css, :plugin => 'simple_kanban'}.join("").html_safe %>
-         
+
   <%= %w(jquery.jgrowl.min.js
          jquery.tinysort.min.js
          simple_kanban.js).map{ |js| javascript_include_tag js, :plugin => 'simple_kanban'}.join("").html_safe %>
@@ -36,7 +36,6 @@
                 <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
               <%- end -%>
             <%- end -%>
-            <div class="clearfix"></div>
           </td>
         <%- end -%>
       </tr>
