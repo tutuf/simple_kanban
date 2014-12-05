@@ -35,7 +35,7 @@ Sponsors
 Authors
 -------
 * [Sava Chankov](https://github.com/kanmei)
-* [Denitsa Belogusheva]((https://github.com/denitsa)
+* [Denitsa Belogusheva](https://github.com/denitsa)
 
 License
 -------
