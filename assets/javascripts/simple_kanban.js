@@ -16,21 +16,25 @@ $(function() {
         data: { issue: { status_id: new_issue_status_id } },
         dataType: 'json',
         type: 'PUT',
-        success: function(jq_xhr, text_status, error_thrown) {
-          // check whether status has really changed because when user has not been given permission for this workflow,
-          // Redmine ignores status change but saves the issue and returns 200 OK
-          $.get('/issues/' + issue_id + '.json',
-                {key: redmine_api_key},
-                function(data) {
-                  var issue = data.issue
-                  if (issue.status.id == new_issue_status_id && new_issue_status_id != old_issue_status.id) {
-                    $.jGrowl("Статусът на #" + issue_id + " беше сменен от '" + old_issue_status.name + "' на '" + issue.status.name +"'")
-                    insert_kanban_card(column, kanban_card, issue)
-                  } else if (new_issue_status_id != old_issue_status.id) {
-                    alert("Статусът на #" + issue_id + "не може да бъде сменен на '" + issue.status.name +"',\nтъй като не сте управомощен за това.")
-           }});
-        },
-        error: function(jq_xhr, text_status, error_thrown) { alert("Статусът на #" + issue_id + " не беше сменен.") }
+        error: function(jq_xhr, text_status, error_thrown) {
+          // Redmine renders empty response on success which is invalid JSON so jQuery balks at it with 'parsererror'
+          if (jq_xhr.status == 200) {
+            // check whether status has really changed because when user has not been given permission for this workflow,
+            // Redmine ignores status change but saves the issue and returns 200 OK
+            $.get('/issues/' + issue_id + '.json',
+                  {key: redmine_api_key},
+                  function(data) {
+                    var issue = data.issue
+                    if (issue.status.id == new_issue_status_id && new_issue_status_id != old_issue_status.id) {
+                      $.jGrowl("Статусът на #" + issue_id + " беше сменен от '" + old_issue_status.name + "' на '" + issue.status.name +"'")
+                      insert_kanban_card(column, kanban_card, issue)
+                    } else if (new_issue_status_id != old_issue_status.id) {
+                      alert("Статусът на #" + issue_id + "не може да бъде сменен на '" + issue.status.name +"',\nтъй като не сте управомощен за това.")
+            }});
+          } else {
+            alert("Статусът на #" + issue_id + " не беше сменен\n" + error_thrown + "\n" + jq_xhr.statusText)
+          }
+        }
       });
    }
  })
