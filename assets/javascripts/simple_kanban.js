@@ -9,11 +9,13 @@ $(function() {
       var issue_id = kanban_card.data('issue_id');
       var new_issue_status_id = $(this).data('issue_status_id');
       var old_issue_status = kanban_card.data('issue_status');
+      var version_id = column.data('version_id')
       kanban_card.css('top', '').css('left', '');
       $.ajax({
         url: issue_href,
         async: false,
-        data: { issue: { status_id: new_issue_status_id } },
+        data: { issue: { status_id:        new_issue_status_id,
+                         fixed_version_id: version_id} },
         dataType: 'json',
         type: 'PUT',
         error: function(jq_xhr, text_status, error_thrown) {
@@ -25,7 +27,11 @@ $(function() {
                   {key: redmine_api_key},
                   function(data) {
                     var issue = data.issue
-                    if (issue.status.id == new_issue_status_id && new_issue_status_id != old_issue_status.id) {
+                    if  (version_id == issue.fixed_version.id) {
+                      $.jGrowl("#" + issue_id + " беше преместен в " + issue.fixed_version.name);
+                      insert_kanban_card(column, kanban_card, issue);
+                    }
+                    if(issue.status.id == new_issue_status_id && new_issue_status_id != old_issue_status.id) {
                       $.jGrowl("Статусът на #" + issue_id + " беше сменен от '" + old_issue_status.name + "' на '" + issue.status.name +"'")
                       insert_kanban_card(column, kanban_card, issue)
                     } else if (new_issue_status_id != old_issue_status.id) {

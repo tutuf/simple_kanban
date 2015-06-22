@@ -22,7 +22,9 @@
     <tbody>
       <tr>
         <%- for issue_status in @issue_statuses -%>
-          <td class="status_column <%= issue_status.is_closed? ? 'closed_status' : 'open_status' %>" data-issue_status_id="<%= issue_status.id %>">
+          <td class="status_column <%= issue_status.is_closed? ? 'closed_status' : 'open_status' %>"
+              data-issue_status_id="<%= issue_status.id %>"
+              data-version_id="<%= version.id %>">
             <%- if issue_status.is_closed? -%>
               <%- recently_closed_issues = version.fixed_issues.where(status_id: issue_status.id).recently_updated.limit(5) -%>
               <%- if recently_closed_issues.count > 0 -%>
