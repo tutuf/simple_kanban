@@ -12,36 +12,50 @@
 <%- for version in @project.versions.open.sort do -%>
   <table class="kanban">
     <caption class="version"><%= link_to_version version, :name => version_anchor(version) %></caption>
-    <thead>
-      <tr>
-        <%- for issue_status in @issue_statuses -%>
-          <th class="<%= issue_status.is_closed? ? 'closed_status' : 'open_status' %>"><%= issue_status.name %></th>
-        <%- end %>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <%- for issue_status in @issue_statuses -%>
-          <td class="status_column <%= issue_status.is_closed? ? 'closed_status' : 'open_status' %>"
-              data-issue_status_id="<%= issue_status.id %>"
-              data-version_id="<%= version.id %>">
-            <%- if issue_status.is_closed? -%>
-              <%- recently_closed_issues = version.fixed_issues.where(status_id: issue_status.id).recently_updated.limit(5) -%>
-              <%- if recently_closed_issues.count > 0 -%>
-                <p class="only_recently_closed_issues"><%= l(:only_recently_closed_issues) %></p>
+    <%- if version.name == 'TODO' -%>
+      <tbody>
+          <%- for issue_category in issues_categories_todo -%>
+          <tr><th class="category"><%= issue_category %></th></tr>
+          <tr>
+            <td><%- for issue in issues_by_category(issue_category) -%>
+                  <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
+                <%- end -%>
+            </td>
+          </tr>
+          <%- end -%>
+      </tbody>
+    <% else %>
+      <thead>
+        <tr>
+          <%- for issue_status in @issue_statuses -%>
+            <th class="<%= issue_status.is_closed? ? 'closed_status' : 'open_status' %>"><%= issue_status.name %></th>
+          <%- end %>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <%- for issue_status in @issue_statuses -%>
+            <td class="status_column <%= issue_status.is_closed? ? 'closed_status' : 'open_status' %>"
+                data-issue_status_id="<%= issue_status.id %>"
+                data-version_id="<%= version.id %>">
+              <%- if issue_status.is_closed? -%>
+                <%- recently_closed_issues = version.fixed_issues.where(status_id: issue_status.id).recently_updated.limit(5) -%>
+                <%- if recently_closed_issues.count > 0 -%>
+                  <p class="only_recently_closed_issues"><%= l(:only_recently_closed_issues) %></p>
+                <%- end -%>
+                <%- for issue in recently_closed_issues do -%>
+                  <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
+                <%- end -%>
+              <%- else -%>
+                <%- for issue in version.fixed_issues.where(status_id: issue_status.id) do -%>
+                  <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
+                <%- end -%>
               <%- end -%>
-              <%- for issue in recently_closed_issues do -%>
-                <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
-              <%- end -%>
-            <%- else -%>
-              <%- for issue in version.fixed_issues.where(status_id: issue_status.id) do -%>
-                <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
-              <%- end -%>
-            <%- end -%>
-            <div class="clearfix"></div>
-          </td>
-        <%- end -%>
-      </tr>
-    </tbody>
+              <div class="clearfix"></div>
+            </td>
+          <%- end -%>
+        </tr>
+      </tbody>
+    <%- end -%>
   </table>
 <%- end -%>
