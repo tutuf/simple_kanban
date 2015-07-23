@@ -10,10 +10,18 @@ module SimpleKanbanHelper
   end
 
   def issues_categories_todo
-    Version.find_by_name('TODO').fixed_issues.map{ |issue| issue.category }.uniq
+    IssueCategory.joins(
+      'RIGHT JOIN issues ON issue_categories.id = issues.category_id
+             JOIN versions ON issues.fixed_version_id = versions.id')
+    .where("versions.name='TODO'")
+    .distinct
+    .order(:name)
   end
 
   def issues_by_category(category)
-    Version.find_by_name('TODO').fixed_issues.select{ |issue| issue.category == category}
+    Issue.joins(:tracker, :priority, :fixed_version)
+      .joins('LEFT JOIN issue_categories ON issue_categories.id = issues.category_id')
+      .where(category: category)
+      .where("versions.name = 'TODO'")
   end
 end

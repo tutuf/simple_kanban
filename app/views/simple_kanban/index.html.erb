@@ -15,9 +15,15 @@
     <%- if version.name == 'TODO' -%>
       <tbody>
           <%- for issue_category in issues_categories_todo -%>
-          <tr><th class="category"><%= issue_category %></th></tr>
           <tr>
-            <td><%- for issue in issues_by_category(issue_category) -%>
+            <%- if issue_category.id.nil? -%>
+              <th class="category">Некатегоризирани </th>
+            <% else %>
+              <th class="category"><%= issue_category %></th>
+            <% end %>
+          </tr>
+          <tr>
+            <td class="category_row"><%- for issue in issues_by_category(issue_category) -%>
                   <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
                 <%- end -%>
             </td>
