@@ -19,7 +19,7 @@ module SimpleKanbanHelper
   end
 
   def issues_by_category(category)
-    Issue.joins(:tracker, :priority, :fixed_version)
+    Issue.open.joins(:tracker, :priority, :fixed_version)
       .joins('LEFT JOIN issue_categories ON issue_categories.id = issues.category_id')
       .where(category: category)
       .where("versions.name = 'TODO'")
