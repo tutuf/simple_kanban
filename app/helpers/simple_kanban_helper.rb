@@ -9,21 +9,22 @@ module SimpleKanbanHelper
     end
   end
 
-  def issues_categories_todo
+  def issues_categories_todo(project)
     IssueCategory.joins(
       'RIGHT JOIN issues ON issue_categories.id = issues.category_id
        LEFT JOIN versions ON issues.fixed_version_id = versions.id')
-      .where("issues.project_id = '10'")
+      .where(["issues.project_id = ?", project.id])
       .where("versions.name='TODO' or versions.name IS NULL")
       .distinct
       .order(:name)
   end
 
-  def issues_by_category(category)
+  def issues_by_category(category, project)
     Issue.open
       .joins(:tracker, :priority)
       .joins('LEFT JOIN versions ON issues.fixed_version_id = versions.id')
       .joins('LEFT JOIN issue_categories ON issue_categories.id = issues.category_id')
+      .where(["issues.project_id = ?", project.id])
       .where(category: category)
       .where("versions.name = 'TODO' or versions.name IS NULL")
   end

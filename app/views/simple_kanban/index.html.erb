@@ -14,7 +14,7 @@
     <caption class="version"><%= link_to_version version, :name => version_anchor(version) %></caption>
     <%- if version.name == 'TODO' -%>
       <tbody>
-          <%- for issue_category in issues_categories_todo -%>
+          <%- for issue_category in issues_categories_todo(@project) -%>
           <tr>
             <%- if issue_category.id.nil? -%>
               <th class="category">Некатегоризирани </th>
@@ -23,7 +23,7 @@
             <% end %>
           </tr>
           <tr>
-            <td class="category_row"><%- for issue in issues_by_category(issue_category) -%>
+            <td class="category_row"><%- for issue in issues_by_category(issue_category, @project) -%>
                   <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
                 <%- end -%>
             </td>
