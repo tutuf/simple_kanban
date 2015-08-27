@@ -1,16 +1,16 @@
 class SimpleKanbanController < ApplicationController
-  unloadable
+  # unloadable
 
   before_filter :find_project, :authorize
-  
+
   helper :projects, :versions
-  
+
   def index
     @issue_statuses = IssueStatus.sorted
     # we're doing AJAX and flash is irrelevant
     flash.clear
   end
-  
+
   private
 
     def find_project
