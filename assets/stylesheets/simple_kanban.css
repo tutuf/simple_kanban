@@ -46,11 +46,20 @@ table.kanban .container {
 .kanban_card {
   position: relative;
   min-height: 8em;
-  margin: 1em .5em;
+  margin: .5em .5em;
   padding: 0;
   background: #fff;
   border: 1px solid #3E5B76;
   overflow: hidden;
+}
+
+.category_row .kanban_card {
+  display: inline-block;
+  width: 14%;
+  width: calc(14.2857% - .75em);
+  margin-right: -.26em;
+  margin-left: .75em;
+  vertical-align: top;
 }
 
 .kanban_card h4 {
