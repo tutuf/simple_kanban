@@ -140,6 +140,7 @@ table.kanban .container {
 }
 
 .ui-draggable-dragging {
+  z-index: 2;
 /*  position: absolute !important;*/
 }
 
