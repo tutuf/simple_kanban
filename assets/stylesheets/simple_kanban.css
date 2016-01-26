@@ -28,6 +28,12 @@ table.kanban th {
   background-color: #DDD;
 }
 
+table.kanban th.category {
+  padding: 0.5em;
+  color: #0C476B;
+  font: bold 110% "Trebuchet MS", Verdana, sans-serif;
+}
+
 table.kanban td {
   vertical-align:top;
   overflow: auto;
