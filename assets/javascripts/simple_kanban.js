@@ -8,13 +8,20 @@ $(function() {
       var issue_href = kanban_card.find('a.issue_id')[0].href;
       var issue_id = kanban_card.data('issue_id');
       var new_issue_status_id = $(this).data('issue_status_id');
-      var old_issue_status = kanban_card.data('issue_status');
+      var version_id = column.data('version_id');
 
+      var old_issue_status = kanban_card.data('issue_status');
       var old_column = kanban_card.closest('.status_column');
-      var version_id = column.data('version_id')
+      var old_version_id = old_column.data('version_id');
+
       var issue = {id: issue_id, status: old_issue_status};
-      insert_kanban_card(column, kanban_card, issue)
+
+      insert_kanban_card(column, kanban_card, issue);
       kanban_card.css({top: 0, left: 0});
+
+      // If there's no change, no need to make request.
+      if ( version_id == old_version_id && new_issue_status_id == old_issue_status.id) return;
+
       $.ajax({
         url: issue_href,
         data: { issue: { status_id:        new_issue_status_id,
