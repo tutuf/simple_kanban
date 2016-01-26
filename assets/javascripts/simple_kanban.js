@@ -1,7 +1,7 @@
 $(function() {
   $(".kanban_card").disableSelection();
   $(".kanban_card").draggable();
-  $(".status_column").droppable({
+  $(".status_column, .category_row").droppable({
     drop: function( event, ui ) {
       var column = $(this);
       var kanban_card = ui.draggable;
