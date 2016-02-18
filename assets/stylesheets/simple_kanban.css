@@ -1,12 +1,15 @@
 table.kanban {
-  border-collapse:collapse; 
-  margin: 3px;
+  width: 100%;
+  border-collapse:collapse;
+  margin: 0 0 1em;
 }
 
 table.kanban caption {
   padding: 0.5em;
   background-color: #DDD;
-  font: bold 150% "Trebuchet MS", Verdana, sans-serif;
+  font-family: "Trebuchet MS",Verdana,sans-serif;
+  font-weight: bold;
+  font-size: 20px;
   border-bottom: 1px solid #FFF;
 }
 
@@ -17,7 +20,7 @@ table.kanban th.closed_status {
 table.kanban th,
 table.kanban td {
   margin: 0;
-  padding: 0;
+  padding: .5em 0;
   border: 1px solid #DDD;
 }
 
@@ -33,31 +36,63 @@ table.kanban th.category {
 
 table.kanban td {
   vertical-align:top;
+  overflow: auto;
+}
+
+table.kanban .container {
+  position: relative;
 }
 
 .kanban_card {
+  position: relative;
+  min-height: 8em;
+  margin: .5em .5em;
+  padding: 0;
+  background: #fff;
   border: 1px solid #3E5B76;
-
-  margin: 0.1em 0 0.1em 0;
-  padding: 0.2em;
-
-  width: 9em;
-  height: 12ex;
   overflow: hidden;
-  
-  float:left;
 }
 
-.kanban_card .subject {
-  font: normal 12px "Trebuchet MS", Verdana, sans-serif;
-  word-break: break-word;
+.category_row .kanban_card {
+  display: inline-block;
+  width: 14%;
+  width: calc(14.2857% - .75em);
+  margin-right: -.26em;
+  margin-left: .75em;
+  vertical-align: top;
+}
+
+.kanban_card h4 {
   position: relative;
-  z-index: 100;
+  padding: .2em .5em;
+  border: none;
+  font-size: 1em;
+  -moz-hyphens: auto;
+  hyphens: auto;
+  word-break: break-word;
+  z-index: 1;
 }
 
 .kanban_card .header {
+  padding: .2em .5em;
   color:  white;
 /*  background-color: #628DB6;*/
+}
+
+.tracker-Задача {
+  background: blue;
+}
+
+.tracker-Дефект {
+  background: red;
+}
+
+.tracker-Подобрение {
+  background: green;
+}
+
+.tracker-Поддръжка {
+  background: #628DB6;
 }
 
 .kanban_card .header a {
@@ -68,7 +103,7 @@ table.kanban td {
   text-align: left;
 }
 
-.kanban_card .header .issue_link {
+.kanban_card .header .issue_id {
   float: right;
   text-align: right;
 }
@@ -90,16 +125,67 @@ table.kanban td {
   margin:  0;
   border:  0;
 
-  width:         24px;
-  height:        24px;
-  border-radius: 24px;
+  width:         32px;
+  height:        32px;
+  border-radius: 50%;
 
-  background-position: center center;
-  background-size: cover  ;
-  
   position: absolute;
   bottom: 1px;
   right:  1px;
-  
-  opacity: 0.7;
+  z-index: 1;
+}
+
+.kanban_card a {
+  text-decoration: none;
+}
+
+.ui-draggable-dragging {
+  z-index: 2;
+/*  position: absolute !important;*/
+}
+
+/*
+ * Responsive magic
+ * Layout cards two or three in a row depending on the number of status
+ * columns and screen width
+ */
+
+@media all and (min-width: 1200px) {
+
+  table.kanban td:first-child:nth-last-child(2) .kanban_card, table.kanban td:first-child:nth-last-child(2) ~ td .kanban_card,
+  table.kanban td:first-child:nth-last-child(3) .kanban_card, table.kanban td:first-child:nth-last-child(3) ~ td .kanban_card,
+  table.kanban td:first-child:nth-last-child(4) .kanban_card, table.kanban td:first-child:nth-last-child(4) ~ td .kanban_card,
+  table.kanban td:first-child:nth-last-child(5) .kanban_card, table.kanban td:first-child:nth-last-child(5) ~ td .kanban_card {
+    display: inline-block;
+    width: 46%;
+    width: calc(50% - .75em);
+    margin-right: -.26em;
+    margin-left: .5em;
+    vertical-align: top;
+  }
+
+  table.kanban td:first-child:nth-last-child(2) .kanban_card, table.kanban td:first-child:nth-last-child(2) ~ td .kanban_card,
+  table.kanban td:first-child:nth-last-child(3) .kanban_card, table.kanban td:first-child:nth-last-child(3) ~ td .kanban_card {
+    width: calc(33% - .6667em);
+  }
+
+}
+
+@media all and (min-width: 1400px) {
+
+  table.kanban td:first-child:nth-last-child(6) .kanban_card, table.kanban td:first-child:nth-last-child(6) ~ td .kanban_card,
+  table.kanban td:first-child:nth-last-child(7) .kanban_card, table.kanban td:first-child:nth-last-child(7) ~ td .kanban_card {
+    display: inline-block;
+    width: 46%;
+    width: calc(50% - .75em);
+    margin-right: -.26em;
+    margin-left: .5em;
+    vertical-align: top;
+  }
+
+  table.kanban td:first-child:nth-last-child(4) .kanban_card, table.kanban td:first-child:nth-last-child(4) ~ td .kanban_card,
+  table.kanban td:first-child:nth-last-child(5) .kanban_card, table.kanban td:first-child:nth-last-child(5) ~ td .kanban_card {
+    width: calc(33% - .6667em);
+  }
+
 }

@@ -1,7 +1,7 @@
 <%- content_for :header_tags do %>
   <%= %w(jquery.jgrowl.css
          simple_kanban.css).map{ |css| stylesheet_link_tag css, :plugin => 'simple_kanban'}.join("").html_safe %>
-         
+
   <%= %w(jquery.jgrowl.min.js
          jquery.tinysort.min.js
          simple_kanban.js).map{ |js| javascript_include_tag js, :plugin => 'simple_kanban'}.join("").html_safe %>
@@ -23,7 +23,9 @@
             <% end %>
           </tr>
           <tr>
-            <td class="category_row"><%- for issue in issues_by_category(issue_category, @project) -%>
+            <td class="category_row"
+                data-issue_status_id="<%= @issue_statuses.first.id %>"
+                data-version_id="<%= version.id %>"><%- for issue in issues_by_category(issue_category, @project) -%>
                   <%= render(partial: 'kanban_card', locals: {issue: issue}) %>
                 <%- end -%>
             </td>

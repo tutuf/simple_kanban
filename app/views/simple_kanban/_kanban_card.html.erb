@@ -2,10 +2,14 @@
                          data-issue_priority_position="<%= issue.priority.position %>"
                          data-issue_tracker_position="<%= issue.tracker.position %>"
                          data-issue_status="<%= issue.status.to_json(root: false) %>">
-  <div class="header" style="background-color: <%= issue_color(issue) %>;">
+  <div class="header tracker-<%= issue.tracker.name %>">
     <span class="issue_priority"><%= issue.priority.name %></span>
-    <%= link_to "##{issue.id}", issue_path(issue.id), {class: "issue_link"} %></span>
+    <%= link_to "##{issue.id}", issue_path(issue.id), {class: "issue_id"} %></span>
   </div>
-  <div class="subject"><%= issue.subject %></div>
-  <div class="gravatar" style="background-image: url(<%= gravatar_url(issue.assigned_to.mail) if issue.assigned_to %>)"></div>
+  <%= link_to issue_path(issue.id) do %>
+    <h4><%= issue.subject %></h4>
+    <%- if issue.assigned_to -%>
+      <img class="gravatar" src="<%= gravatar_url(issue.assigned_to.mail) %>" alt="<%= issue.assigned_to.name %>"  title="<%= issue.assigned_to.name %>" />
+    <%- end -%>
+  <%- end -%>
 </div>
